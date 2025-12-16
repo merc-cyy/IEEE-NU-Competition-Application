@@ -2,6 +2,7 @@
 
 ## Authors
 - **Mercy Muiruri**
+- **Ayush Arora**
 - **Emran Majidy**
 
 ## Background
@@ -39,5 +40,3 @@ Many thanks to my team members:
 - Casey Zhang
 for their great skills and camaraderie.
 
-## Our application
-Visit our site! https://nuvolunteers.org/ 
