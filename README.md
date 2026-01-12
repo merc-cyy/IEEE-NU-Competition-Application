@@ -9,9 +9,9 @@
 My team and I won the annual Institute of Electrical and Electronic Engineers invite-only competition held in Northwestern, Chicago.
 
 Many students found it hard to find places to volunteer around Evanston, our local town, and especially places that matched their interests.
-So my team and I built NUVolunteers.org, an application that uses ML models to match students to volunteer opportunities that match their user profile and interests.
+So my team and I built NUVolunteers, an application that uses ML models to match students to volunteer opportunities that match their user profile and interests.
 
-This is the frontend service of the system.
+This is the source code of the system.
 
 
 ## Acknowledgements
