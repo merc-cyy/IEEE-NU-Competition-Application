@@ -25,7 +25,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     
-    allow_origins=['*'],  # or your frontend URL
+    allow_origins=['*'],  # for the demo, allowed all origins meaning any browser can call our APIs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,7 +34,7 @@ app.add_middleware(
 # Supabase init
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY) # the DB client to be able to query our DB client
 
 
 #jobs
@@ -44,31 +44,31 @@ jobs = {}
 
 # Define request schema
 class ExampleRequest(BaseModel):
-    userid: str
-recommender = VolunteerRecommender(supabase)
+    userid: str # { userid : "123" } --> example request
+recommender = VolunteerRecommender(supabase) # initalize the recommmender model
 @app.post("/recommend")
-@app.post("/recommend/")
-def recommend(request: ExampleRequest):
+@app.post("/recommend/") # supports /recommend or /recommend/
+def recommend(request: ExampleRequest): # recommend jobs in general based on a user's profile
     try:
         # Load recommender once
 
-        print("JUST STARTING")
-        user_id = request.userid
-        print(f"USERID:{user_id}")
+        # print("JUST STARTING")
+        user_id = request.userid  # get userid from the request
+        # print(f"USERID:{user_id}")
         
-        print("INIT IS DONE")
-        recommender.fetch_data()
-        print("Before MODEL FIT")
-        recommender.fit()
-        print("MODEL FIT IS DONE")
-        user_embedding = recommender.build_user_profile(user_id)
+        # print("INIT IS DONE")
+        recommender.fetch_data() # fetch the jobs from the DB into the recommender client dataframe
+        # print("Before MODEL FIT")
+        recommender.fit() # fit --> build the embeddings
+        # print("MODEL FIT IS DONE")
+        user_embedding = recommender.build_user_profile(user_id) # pass in the userid to the recommender client to build user embedding
         print("USER RECOMMENDATIONS TAKEN INTO CONSIDERATION")
-        recommendations = recommender.recommend_for_user(user_embedding, top_n=1000)
+        recommendations = recommender.recommend_for_user(user_embedding, top_n=1000) # recommend best jobs for user (cosine similarity)
         # output_path = f"/tmp/recommendations_{user_id}.csv"
         # recommendations.to_csv(output_path, index=False)
         # print(f"Recommendations written to: {output_path}")
         # Convert DataFrame to list of dictionaries
-        recommendations_list = recommendations.to_dict(orient="records")
+        recommendations_list = recommendations.to_dict(orient="records") # serialize into a dict to be sent as JSON
 
         # print(f"RECOMMENDATIONS:{recommendations_list}")
         return {
@@ -85,7 +85,7 @@ def recommend(request: ExampleRequest):
 
 # Define request schema
 class ExampleRequestGen(BaseModel):
-    blurb: str
+    blurb: str # { blurb : "xyz" } -> recommend jobs based on user's blurb or text
 generator = llmRecommender(supabase)
 @app.post("/generate")
 @app.post("/generate/")
@@ -124,4 +124,4 @@ def generate(req: ExampleRequestGen):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000))) # starts the FASTAPI server for the model APIs
