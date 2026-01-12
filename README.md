@@ -4,6 +4,9 @@
 - **Mercy Muiruri**
 - **Ayush Arora**
 - **Emran Majidy**
+- **Naomi Li**
+- **Breanna Lu**
+- **Bingyue Zhang**
 
 ## Background
 My team and I won the annual Institute of Electrical and Electronic Engineers invite-only competition held in Northwestern, Chicago.
